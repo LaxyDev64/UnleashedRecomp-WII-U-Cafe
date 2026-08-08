@@ -1,13 +1,13 @@
 project("UnleashedRecompLib")
 
 set(UNLEASHED_RECOMP_SWITCH_PREGENERATED_SHADER_CACHE_DEFAULT OFF)
-if (UNLEASHED_RECOMP_SWITCH AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/shader/shader_cache.cpp")
+if ((UNLEASHED_RECOMP_SWITCH OR UNLEASHED_RECOMP_WIIU) AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/shader/shader_cache.cpp")
     set(UNLEASHED_RECOMP_SWITCH_PREGENERATED_SHADER_CACHE_DEFAULT ON)
 endif()
 
 option(
     UNLEASHED_RECOMP_SWITCH_USE_PREGENERATED_SHADERS
-    "Use an existing shader/shader_cache.cpp during Switch builds instead of running XenosRecomp from the target build."
+    "Use an existing shader/shader_cache.cpp during Switch or Wii U builds instead of running XenosRecomp from the target build."
     ${UNLEASHED_RECOMP_SWITCH_PREGENERATED_SHADER_CACHE_DEFAULT}
 )
 
@@ -23,7 +23,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-frounding-math>)
 endif()
 
-if (UNLEASHED_RECOMP_SWITCH)
+if (UNLEASHED_RECOMP_SWITCH OR UNLEASHED_RECOMP_WIIU)
     set(UNLEASHED_RECOMP_HOST_TOOLS_DIR "${CMAKE_SOURCE_DIR}/build/host-tools" CACHE PATH "Directory containing host-side generation tools.")
     set(UNLEASHED_RECOMP_HOST_X_DECOMPRESS "${UNLEASHED_RECOMP_HOST_TOOLS_DIR}/tools/x_decompress/x_decompress" CACHE FILEPATH "Host x_decompress executable.")
     set(UNLEASHED_RECOMP_HOST_XENON_RECOMP "${UNLEASHED_RECOMP_HOST_TOOLS_DIR}/tools/XenonRecomp/XenonRecomp/XenonRecomp" CACHE FILEPATH "Host XenonRecomp executable.")
