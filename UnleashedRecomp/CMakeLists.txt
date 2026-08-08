@@ -126,6 +126,16 @@ elseif (APPLE)
         "os/macos/user_macos.cpp"
         "os/macos/version_macos.cpp"
     )
+elseif (UNLEASHED_RECOMP_WIIU)
+    # TODO: estos archivos aun no existen, hay que escribirlos calcando os/switch/*
+    set(UNLEASHED_RECOMP_OS_CXX_SOURCES
+        "os/wiiu/logger_wiiu.cpp"
+        "os/wiiu/media_wiiu.cpp"
+        "os/wiiu/process_wiiu.cpp"
+        "os/wiiu/runtime_wiiu.cpp"
+        "os/wiiu/user_wiiu.cpp"
+        "os/wiiu/version_wiiu.cpp"
+    )
 endif()
 
 set(UNLEASHED_RECOMP_CPU_CXX_SOURCES
@@ -151,6 +161,11 @@ set(UNLEASHED_RECOMP_HID_CXX_SOURCES
 if (UNLEASHED_RECOMP_SWITCH)
     list(APPEND UNLEASHED_RECOMP_HID_CXX_SOURCES
         "hid/driver/switch_hid.cpp"
+    )
+elseif (UNLEASHED_RECOMP_WIIU)
+    # TODO: aun no existe, aqui va la lectura de VPAD (GamePad) + toggle TV/DRC
+    list(APPEND UNLEASHED_RECOMP_HID_CXX_SOURCES
+        "hid/driver/wiiu_hid.cpp"
     )
 else()
     list(APPEND UNLEASHED_RECOMP_HID_CXX_SOURCES
@@ -370,6 +385,9 @@ elseif (APPLE)
     add_custom_target(CopyMoltenVK DEPENDS ${MVK_ICD_DST} ${MVK_DYLIB_DST})
     add_dependencies(CopyMoltenVK MoltenVK)
     add_dependencies(UnleashedRecomp CopyMoltenVK)
+elseif (UNLEASHED_RECOMP_WIIU)
+    add_executable(UnleashedRecomp ${UNLEASHED_RECOMP_CXX_SOURCES})
+    wut_create_rpx(UnleashedRecomp)
 else()
     add_executable(UnleashedRecomp ${UNLEASHED_RECOMP_CXX_SOURCES})
 endif()
@@ -395,6 +413,15 @@ if (UNLEASHED_RECOMP_SWITCH)
         "VK_USE_PLATFORM_VI_NN"
         "IMGUI_DISABLE_DEFAULT_SHELL_FUNCTIONS"
         "GAME_INSTALL_DIRECTORY=\"sdmc:/switch/UnleashedRecomp\""
+    )
+endif()
+
+if (UNLEASHED_RECOMP_WIIU)
+    target_compile_definitions(UnleashedRecomp PRIVATE
+        "UNLEASHED_RECOMP_WIIU"
+        "__WIIU__"
+        "IMGUI_DISABLE_DEFAULT_SHELL_FUNCTIONS"
+        "GAME_INSTALL_DIRECTORY=\"fs:/vol/external01/wiiu/UnleashedRecomp\""
     )
 endif()
 
@@ -459,6 +486,12 @@ target_link_libraries(UnleashedRecomp PRIVATE
 
 if (UNLEASHED_RECOMP_SWITCH)
     target_link_libraries(UnleashedRecomp PRIVATE nx)
+endif()
+
+if (UNLEASHED_RECOMP_WIIU)
+    # OJO: "plume" (linkado mas arriba en este mismo bloque) todavia no tiene
+    # backend GX2. Esto compilara/linkara solo cuando ese backend exista.
+    target_link_libraries(UnleashedRecomp PRIVATE wut whb gx2 vpad padscore)
 endif()
 
 target_include_directories(UnleashedRecomp PRIVATE
