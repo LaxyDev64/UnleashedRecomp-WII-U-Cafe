@@ -1,6 +1,3 @@
-<p align="center">
-    <img src="https://raw.githubusercontent.com/hedge-dev/UnleashedRecompResources/refs/heads/main/images/logo/Logo.png" width="512"/>
-</p>
 
 <p align="center">
        <img width="1672" height="941" alt="ChatGPT Image 31 ago 2026, 22_03_23" src="https://github.com/user-attachments/assets/d026d0fd-08c6-40a7-92a6-000c088f8d79"/>
