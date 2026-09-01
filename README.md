@@ -1,11 +1,5 @@
 
 <p align="center">
-       <img width="1672" height="941" alt="ChatGPT Image 31 ago 2026, 22_03_23" src="https://github.com/user-attachments/assets/d026d0fd-08c6-40a7-92a6-000c088f8d79"/>
-</p>
-
-
----
-<p align="center">
   <img width="1672" height="941" alt="Sonic Unleashed Recompiled — Wii U Port banner" src="https://github.com/user-attachments/assets/d026d0fd-08c6-40a7-92a6-000c088f8d79"/>
 </p>
 
